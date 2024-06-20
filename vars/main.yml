@@ -1,0 +1,10 @@
+---
+aws_key_name: "your-key-name"
+aws_instance_type: "t2.micro"
+aws_image_id: "ami-0abcdef1234567890" # Replace with your preferred AMI ID
+aws_region: "us-west-2"
+aws_subnet_id: "subnet-0abc123456def"
+aws_security_group: "sg-0abc123456def"
+aws_instance_name: "MyEC2Instance"
+jar_artifact_path: "/path/to/your/artifact.jar"
+
