@@ -1,0 +1,61 @@
+pipeline {
+    agent any
+
+    environment {
+        GIT_REPO = 'https://github.com/your-repo/your-java-project.git'
+        BRANCH = 'main'
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: "${env.BRANCH}", url: "${env.GIT_REPO}"
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                script {
+                    if (fileExists('mvnw')) {
+                        sh './mvnw clean install'
+                    } else {
+                        sh 'mvn clean install'
+                    }
+                }
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                script {
+                    if (fileExists('mvnw')) {
+                        sh './mvnw test'
+                    } else {
+                        sh 'mvn test'
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                // Add your deployment steps here. For example, you might copy the built artifacts to a remote server.
+                sh 'echo "Deploying to production environment"'
+                // Example deployment command:
+                // sh 'scp target/your-app.jar user@your-server:/path/to/deploy'
+            }
+        }
+    }
+    
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
+}
